@@ -23,7 +23,7 @@ function listPage() {
 
       console.log(allData, "aa");
       const _wordList = [];
-      for (let index = 0; index < 150; index++) {
+      for (let index = 0; index < allData.font; index++) {
         _wordList.push(
           allData.words?.map((word) => {
             return (
@@ -31,7 +31,7 @@ function listPage() {
                 style={{
                   wordWrap: "break-word",
                   fontSize: Math.floor(Math.random() * 300),
-                  colors:
+                  color:
                     allData.colors[
                       Math.floor(Math.random() * allData.colors.length)
                     ],

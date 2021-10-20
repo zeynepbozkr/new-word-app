@@ -70,11 +70,15 @@ function addPost() {
         onFinish={onFinish}
       >
         <Form.Item label="Word" name="words">
-          <Select mode="tags" style={{ width: "100%" }}></Select>
+          <Select
+            mode="tags"
+            style={{ width: "100%" }}
+            placeholder="Select  "
+          ></Select>
         </Form.Item>
 
         <Form.Item name="font" label="Slider">
-          <Slider min={100} max={1000} defaultValue={120} />
+          <Slider min={100} max={1000} defaultValue={100} />
         </Form.Item>
 
         <Form.Item label="Color" name="colors">
@@ -108,38 +112,3 @@ function addPost() {
 }
 
 export default addPost;
-
-// const onFinish = async (values) => {
-//   console.log(values, "sbbgsbsg");
-
-//   if (values.words.length <= 6) {
-//     const aa = await axios
-//       .post("http://localhost:5000", {
-//         words: values?.words,
-//         font: values?.font,
-//         colors: values?.colors,
-//       })
-//       .then((response) => {
-//         console.log(response, "RESPONSE");
-//         return response.data;
-//       })
-//       .catch(function (error) {
-//         console.log(error);
-//         return false;
-//       });
-
-//     console.log(aa, "AAA");
-
-//     if (aa) {
-//       console.log(aa, "data");
-//       return router.push({
-//         pathname: "/listPage",
-//         query: {
-//           id: aa,
-//         },
-//       });
-//     } else {
-//       alert("HATA");
-//     }
-//   }
-// };
