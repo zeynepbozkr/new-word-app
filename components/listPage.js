@@ -1,42 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Card } from "antd";
-import styles from "./Listpage.module.css";
+import axios from "axios";
 
 function listPage() {
   const router = useRouter();
-  const { words, font, color } = router.query;
+  const { id } = router.query;
+  const [loading, setLoading] = useState(true);
+  const [kelime, setKelime] = useState([]);
 
-  console.log(words, "kelimeler");
+  useEffect(() => {
+    console.log(router.query, "data id");
 
-  return (
-    <div>
-      <Card
-        style={{
-          border: "3px solid black",
-          margin: "150px",
-          padding: "150px",
-          borderRadius: "10px",
-          boxShadow: "3px 3px 3px 3px rgba(238, 210, 204, 0.3)",
-        }}
-      >
-        <p>
-          {words?.map((item) => {
-            console.log(font);
+    const fetcher = async () => {
+      const allData = await axios
+        .get("http://localhost:5000", { params: { id: id } })
+        .then((resp) => {
+          console.log(resp.data[0], "data list");
+
+          return resp.data[0];
+        });
+
+      console.log(allData, "aa");
+      const _wordList = [];
+      for (let index = 0; index < 150; index++) {
+        _wordList.push(
+          allData.words?.map((word) => {
             return (
-              <div
+              <p
                 style={{
-                  // `${font}px`
-                  fontSize: parseInt(font),
-                  color: color[Math.floor(Math.random() * color.length)],
+                  wordWrap: "break-word",
+                  fontSize: Math.floor(Math.random() * 300),
+                  colors:
+                    allData.colors[
+                      Math.floor(Math.random() * allData.colors.length)
+                    ],
                 }}
               >
-                {item}
-              </div>
+                {word}
+              </p>
             );
-          })}
-        </p>
-      </Card>
+          })
+        );
+
+        setKelime(_wordList);
+      }
+
+      setLoading(false);
+    };
+
+    fetcher();
+  }, []);
+
+  console.log(kelime, "kel (hepsi aynı)");
+
+  return loading ? (
+    "loading "
+  ) : (
+    <div
+      style={{
+        display: "flex",
+        flexdirection: "column",
+        justifycontent: "center",
+        wordWrap: "break-word",
+        overflow: "scroll",
+        width: "800px",
+        height: "500px",
+      }}
+    >
+      {kelime.map((kel) => kel)}
     </div>
   );
 }
